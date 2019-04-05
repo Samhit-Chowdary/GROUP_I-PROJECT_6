@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="user name"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="296dp" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="enter email"
+                android:inputType="textEmailAddress"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="201dp" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="enter password"
+                android:inputType="textPassword"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="296dp" />
+
+
+            <EditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="confirm password"
+                android:inputType="textPassword"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="296dp" />
+
+            <EditText
+                android:id="@+id/mobileNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="enter phone number"
+                android:inputType="number"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="201dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    gender"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+            <RadioGroup
+                android:id="@+id/radiosex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radiomale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="check"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/radiofemale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="check"
+                    android:text="Female" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    user type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+            <RadioGroup
+                android:id="@+id/radio_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_gu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="check1"
+                    android:text="General" />
+
+                <RadioButton
+                    android:id="@+id/radio_bu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="check1"
+                    android:text="Bussiness" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="register user"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.551"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="420dp" />
+
+            <TextView
+                android:id="@+id/textViewSignin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Already registered? Sign in here"
+                android:textAlignment="center"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="520dp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
