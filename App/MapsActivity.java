@@ -1,85 +1,41 @@
-package com.example.dhruvsinghal.loginpage;
+package com.example.samhi.firebasedemo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
-import android.support.annotation.NonNull;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
-
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import java.io.IOException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationCallBack {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-   com.example.dhruvsinghal.loginpage.LocationProvider locationProvider;
-    private static final int REQUEST_PERMISSIO_CODE = 111;
-    private double lat  ;
-    private double lang ;
+    Timer timer;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        requestLocationPermission();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-
-    }
-
-    protected  void requestLocationPermission() {
-        ActivityCompat.requestPermissions(this, new String[] {ACCESS_COARSE_LOCATION , ACCESS_FINE_LOCATION} , REQUEST_PERMISSIO_CODE);
-    }
-
-   @Override
-   public void onRequestPermissionsResult(int requestCode , @NonNull String[] permissions , @NonNull int[] grantResults ){
-        super.onRequestPermissionsResult(requestCode , permissions , grantResults);
-        switch(requestCode) {
-            case REQUEST_PERMISSIO_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                            LProvider();
-        }
-   }
-
-
-    private void LProvider() {
-
-
-        if (Build.VERSION.SDK_INT >= 24) {
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationProvider =  new com.example.dhruvsinghal.loginpage.LocationProvider(this,this );
-                locationProvider.connect();
-            } else
-                requestLocationPermission(); ;
-
-
-        } else {
-            locationProvider = new LocationProvider(this ,this );
-            locationProvider.connect();
-        }
-
-    }
-
-    @Override
-    public void handlecurrentLocation(Location location) {
-
-         lat = location.getLatitude();
-         lang =  location.getLongitude();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -98,10 +54,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-     Toast.makeText(this , lat + " , " +  lang , Toast.LENGTH_LONG).show();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            Toast.makeText(this, "Location", Toast.LENGTH_SHORT).show();
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double longitude=location.getLongitude();
+                    double latitude=location.getLatitude();
+                    LatLng latLng=new LatLng(latitude,longitude);
+                    Geocoder geocoder=new Geocoder(getApplicationContext());
+                        mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10F));
+                    timer=new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                          //  Toast.makeText(MapsActivity.this, "lol", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MapsActivity.this,MainActivity.class));
+                            finish();
+                        }
+                    },4000);
+           }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }
+
+
         // Add a marker in Sydney and move the camera
-      LatLng currentLocation = new LatLng(lat,lang );
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in current location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+//        LatLng iiti = new LatLng(22.520742, 75.920717);
+//        mMap.addMarker(new MarkerOptions().position(iiti).title("Marker in iiti"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(iiti,15F));
     }
+
+
+
 }

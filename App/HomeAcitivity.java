@@ -1,4 +1,4 @@
-package com.example.dhruvsinghal.loginpage;
+package com.example.samhi.firebasedemo;
 
 import android.content.Intent;
 import android.os.Handler;
